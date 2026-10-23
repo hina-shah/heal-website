@@ -86,6 +86,22 @@ export const QUERIES = [
   },
 ]
 
+// Excel reports mysql_tables_sync_lambda writes to S3 (not MySQL tables),
+// generated/downloaded via the same query Lambda's trigger_regenerate /
+// get_download_url queries (?name=<key>&report=<report key>).
+export const REPORTS = [
+  {
+    key: "study_metrics",
+    label: "Study Metrics",
+    desc: "HDE study metrics workbook — counts, repository breakdown, drill-down sheets",
+  },
+  {
+    key: "gtd_targets",
+    label: "GTD Targets",
+    desc: "Studies whose data is due this year, plus early awards from last year",
+  },
+]
+
 export const fmt = (n) => (n ?? 0).toLocaleString()
 
 // Elasticsearch caps some counts (e.g. variables at 10,000)
@@ -126,4 +142,17 @@ export async function fetchQuery(queryApiBase, name, params = {}) {
   if (!res.ok) throw new Error(`API returned ${res.status}`)
   const data = await res.json()
   return data.results ?? []
+}
+
+// Like fetchQuery, but for the report trigger_regenerate/get_download_url
+// queries, whose response shape isn't a `results` array (trigger_regenerate
+// returns {triggered_at, ...}, get_download_url returns {url, last_modified,
+// ...}) -- callers need the whole parsed body, not just one field of it.
+export async function fetchReportAction(queryApiBase, name, params = {}) {
+  const qs = new URLSearchParams({ name, ...params }).toString()
+  const res = await fetch(`${queryApiBase}?${qs}`)
+  if (!res.ok) throw new Error(`API returned ${res.status}`)
+  const data = await res.json()
+  if (data.error) throw new Error(data.error)
+  return data
 }

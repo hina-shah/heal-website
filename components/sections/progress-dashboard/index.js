@@ -12,6 +12,7 @@ import {
 import MetricCard from "./metric-card"
 import OriginBreakdown from "./origin-breakdown"
 import QueryPanel from "./query-panel"
+import ReportPanel from "./report-panel"
 import RepoPrograms from "./repo-programs"
 import TrendChart from "./trend-chart"
 import { Card, SectionLabel, TrendDelta } from "./ui"
@@ -102,6 +103,16 @@ function Dashboard({ data }) {
                 queryApiBase={queryApiBase}
                 repositories={summary.latest?.platform?.repositories ?? []}
               />
+            </Card>
+          </div>
+
+          <div className="mt-2.5">
+            <SectionLabel
+              title="Report Generation"
+              desc="Generate and download the latest Study Metrics and GTD Targets Excel reports. Generate runs in the background — allow a minute or two before downloading."
+            />
+            <Card>
+              <ReportPanel queryApiBase={queryApiBase} />
             </Card>
           </div>
 
