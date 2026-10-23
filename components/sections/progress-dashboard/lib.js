@@ -13,8 +13,10 @@ const API_BASE_BY_ENV = {
 }
 
 const QUERY_API_BASE_BY_ENV = {
-  prod: "https://opzv7se6o6fpwzfpgt4uqne6rm0fnqtu.lambda-url.us-east-1.on.aws/",
-  test: process.env.NEXT_PUBLIC_HEAL_QUERY_API_BASE_TEST || "",
+  prod: "https://5mrl4mlgw5pdnftc5pxrmiwnna0gvffq.lambda-url.us-east-1.on.aws/",
+  test:
+    process.env.NEXT_PUBLIC_HEAL_QUERY_API_BASE_TEST ||
+    "https://opzv7se6o6fpwzfpgt4uqne6rm0fnqtu.lambda-url.us-east-1.on.aws/",
 }
 
 export const DEFAULT_API_BASE = API_BASE_BY_ENV[API_ENV] || API_BASE_BY_ENV.prod
