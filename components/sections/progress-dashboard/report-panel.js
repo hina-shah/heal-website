@@ -82,8 +82,8 @@ export default function ReportPanel({ queryApiBase }) {
                   status[r.key].kind === "ok"
                     ? "text-emerald-600"
                     : status[r.key].kind === "err"
-                      ? "text-red"
-                      : "text-gray"
+                    ? "text-red"
+                    : "text-gray"
                 }`}
               >
                 {status[r.key].text}
